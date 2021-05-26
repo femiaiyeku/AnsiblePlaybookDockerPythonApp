@@ -1,0 +1,11 @@
+---
+- name: restart docker
+  service:
+         name: docker
+         debug:
+         msg: " docker is restarting"
+         when: not upgrade | default(false) | bool
+         state: restarted
+         notify:
+        - restart docker
+

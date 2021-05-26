@@ -1,0 +1,74 @@
+# Provisioning configuration for Ansible.
+
+
+
+ ---
+- hosts: localhost
+  connection: local
+  gather_facts: yes
+  become: yes
+  vars_file:
+     -vars/main.yml
+
+
+  pre_tasks:
+    - name: Install pre-requisite packages and  dependencies
+      yum:
+        name: "{{ default_container_image }}"
+        state: present
+        update_cache: yes
+      loop:
+        - yum-utils
+        - device-mapper-persistent-data
+
+
+     - name: Install lvm2
+       yum:
+        name: lvm2
+        state: latest
+
+
+ tasks:
+
+   - name: Install yum-cron
+        yum: name=yum-cron state=present
+
+      - name: Ensure yum-cron is running and enabled on boot
+        service:
+        name=yum-cron
+        state=started
+        enabled=yes
+
+    - name: Add Docker CE repo
+      get_url:
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+        dest: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker
+       yum:
+        name=docker state=latest
+
+
+    - name: Install Docker Module for Python
+      pip3:
+        name: docker
+
+    - name: Pull default Docker image
+      docker_image:
+        name: "{{ default_container_image }}"
+        source: pull
+        state: present
+
+    - name: make sure docker is active
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Run the anagram_python app
+      shell: "python3 app/main.py"
+
+
+  handlers:
+  - import_tasks: handlers/main.yml
+

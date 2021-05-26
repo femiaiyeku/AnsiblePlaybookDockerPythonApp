@@ -1,0 +1,21 @@
+---
+services: docker
+
+before_install:
+  # Upgrade Docker.
+  - yum install -y epel-release
+  - yum install -y -o Dpkg::Options::="--force-confnew" install docker-ce
+
+  # Install python (python plus all its dependencies)
+  - yum --enablerepo=epel -y install python3
+
+
+script:
+  # Test building Dockerfile.
+  - docker build -t docker-ansible .
+
+  # Running the container.
+  - docker run --name container -d --privileged -v /sys/fs/cgroup:/sys/fs/cgroup:ro docker-ansible
+
+  # Verify Ansible is available in the container.
+  - docker exec --tty container env TERM=xterm ansible --version
