@@ -3,36 +3,27 @@ Ansible Playbook that runs on localhost which is a CentOS 7 VM and Install Docke
 
 
 
-Run Ansible Playbook in Docker - Python A
+# Run Ansible Playbook in Docker - Anagram Python App
 
-This is an extremely simple Docker example to help introduce you to managing Docker containers via Ansible.
-
-CentOS 7 Ansible  Image
-
-Build Status Docker Automated build
+This is a Docker exercise to introduce you to managing Docker containers via Ansible.
 
 CentOS 7 Docker container for Ansible playbook 
 
-Tags
-
+# Tags
 python3: Latest stable version of Ansible, but on Python 3.8.x.
 
-How to Build
-If you need to build the image on your own locally, do the following:
+# How to Build
+If you need to build the image on your own localohost
+
+
+# How to Use
 
 Install Docker.
-cd into this directory.
-Run docker build -t centos7-ansible .
 
-How to Use
-Install Docker.
-Pull this image from Docker Hub: docker pull centos7-ansible:latest
-
-
+  Run
 $ ansible-playbook -i hosts main.yml
-After a minute or so, Ansible will have built and run a container, built from the included Dockerfile.
+ Ansible will have been built and run a container, built from the included Dockerfile.
 
 
-About the Author
-
+# About the Author
 This project was created by Olufemi Aiyeku
