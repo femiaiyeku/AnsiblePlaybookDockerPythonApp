@@ -1,4 +1,3 @@
-
 """
 Algorithm
 In order to decide whether two strings are anagrams
@@ -9,30 +8,25 @@ In the end, if the two lists of counters are identical, the strings must be anag
 """
 
 
-def anagram(s1: object, s2: object) -> bool:
+def anagram(s1, s2) -> bool:
     c1 = [0] * 26
     c2 = [0] * 26
-    i: object
     for i in range(len(s1)):
         pos = ord(s1[i]) - ord('a')
-        c1[pos] +=  1
+        c1[pos] += 1
         for i in range(len(s2)):
             pos = ord(s2[i]) - ord('a')
             c2[pos] += 1
-            j = 0
-            is_anagram = True
+            j: int = 0
+            is_anagram: bool = True
             while j < 26 and is_anagram:
                 if c1[j] == c2[j]:
                     j += 1
                 else:
                     is_anagram = False
                     return is_anagram
-                    
 
-
-
-
-if __name__ == '__main__':
-    anagram('apple', 'appel')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+                    if __name__ == '__main__':
+                        anagram('apple', 'appel')
+                    else:
+                        pass

@@ -6,7 +6,6 @@ LABEL maintainer="Olufemi Aiyeku"
 
 ENV container=docker
 
-ENV pip_packages "ansible"
 
 RUN yum -y update; yum clean all; \
 (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
@@ -28,8 +27,6 @@ RUN yum makecache fast \
       python3-pip \
  && yum clean all
 
-# Install Ansible via Pip.
-RUN pip3 install $pip_packages
 
 # Disable requiretty.
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
@@ -40,6 +37,6 @@ RUN echo -e '[local]\nlocalhost ansible_connection=local' > /etc/ansible/hosts
 
 WORKDIR /Users/femiaiyeku/PycharmProjects/AnsiblePlaybookDockerPythonApp
 
-
+ADD . /app/main.py
 VOLUME ["/sys/fs/cgroup"]
 CMD ["/usr/lib/systemd/systemd", "/bin/ping", "localhost","python3", "app/main.py"]
